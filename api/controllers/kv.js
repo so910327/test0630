@@ -1,63 +1,67 @@
 var URLSafeBase64 = require('urlsafe-base64');
 let now = new Date();
+var bodyParser = require('body-parser');
 
 var db = [];
 
-function getKEY(req, res) {
-  var path = req.path+"";
-  path = path.slice(4);
+function checkValue(path){
   var indexOfPath = db.findIndex(i => i.VALUE === path);
-  console.log(indexOfPath+'----'+path);
+  if(indexOfPath === -1) return false;
+  return indexOfPath;
+}
+
+function getKEY(req, res) {
+  var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
     res.json(400, {
-      message: "400 Bad Request"
+      message: "400 Bad Request",
     })
-  if(indexOfPath === -1)
+  console.log(checkValue(path));
+  if(checkValue(path) === false)
     res.json(404, {
-      message: "value not exit"
+      message: "value not exit",
     });
   else{
     res.json(200, {
       VALUE: path,
       TS: now,
    });
+   console.log(db);
   }
 }
 
 
 function deleteKEY(req, res) {
-  var path = req.path+"";
-  path = path.slice(4);
-  var indexOfPath = db.findIndex(i => i.VALUE === path);
+  var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
     res.json(400, {
-      message: "400 Bad Request"
+      message: "400 Bad Request",
     })
-  if(indexOfPath === -1)
+  if(checkValue(path) === false)
     res.json(404, {
       TS: now,
-      message: "value not exit"
     });
   else{
+    db.splice(checkValue(path), 1);
     res.json(200, {
       OLD_VALUE: path,
       TS: now,
-   });
-}
+    });
+    console.log(db);
+ }
 }
 
 function postKEY(req, res) {
-  var path = req.path+"";
-  path = path.slice(4);
+  var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
     res.json(400, {
-      message: "400 Bad Request"
+      message: "400 Bad Request",
   })
   res.json(200, {
     TS: now,
   })
   var json=({
-    VALUE : path,
+    VALUE : req.body.VALUE,
     TS : now
   })
   db.push(json);
