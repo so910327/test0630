@@ -11,7 +11,7 @@ function getKEY(req, res) {
   if(!URLSafeBase64.validate(path))
     res.json(400, {
       message: "400 Bad Request"
-  })
+    })
   if(indexOfPath === -1)
     res.json(404, {
       message: "value not exit"
@@ -32,7 +32,7 @@ function deleteKEY(req, res) {
   if(!URLSafeBase64.validate(path))
     res.json(400, {
       message: "400 Bad Request"
-  })
+    })
   if(indexOfPath === -1)
     res.json(404, {
       TS: now,
@@ -45,7 +45,6 @@ function deleteKEY(req, res) {
    });
 }
 }
-
 
 function postKEY(req, res) {
   var path = req.path+"";
@@ -64,7 +63,6 @@ function postKEY(req, res) {
   db.push(json);
   console.log(db);
 }
-
 
 module.exports = {
   getKEY,
