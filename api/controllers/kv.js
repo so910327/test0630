@@ -1,4 +1,4 @@
-let now = '2017-06-29T07:36:17.653Z'
+let now = new Date();
 
 function getKEY(req, res) {
   res.json(404, {
@@ -18,6 +18,7 @@ function postKEY(req, res) {
     TS: now,
   })
 }
+
 
 module.exports = {
   getKEY,
