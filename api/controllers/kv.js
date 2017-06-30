@@ -14,12 +14,12 @@ function getKEY(req, res) {
   var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
     res.json(400, {
-      message: "400 Bad Request",
+      message: "給人看的錯誤說明",
     })
   console.log(checkValue(path));
   if(checkValue(path) === false)
     res.json(404, {
-      message: "value not exit",
+      message: "給人看的錯誤說明",
     });
   else{
     res.json(200, {
@@ -35,7 +35,7 @@ function deleteKEY(req, res) {
   var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
     res.json(400, {
-      message: "400 Bad Request",
+      message: "給人看的錯誤說明",
     })
   if(checkValue(path) === false)
     res.json(404, {
@@ -55,7 +55,7 @@ function postKEY(req, res) {
   var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
     res.json(400, {
-      message: "400 Bad Request",
+      message: "給人看的錯誤說明",
   })
   res.json(200, {
     TS: now,
