@@ -2,7 +2,6 @@ var app = require('../../app');
 var bodyParser = require('body-parser');
 var request = require('request');
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 function check(str){
@@ -11,16 +10,16 @@ function check(str){
 }
 
 function getvalue(req){
+  req = JSON.stringify(req);
   var reqSth = {
     url : 'https://nkiua09s52.execute-api.ap-northeast-1.amazonaws.com/dev/encrypt',
     headers:{
       'content-type' : 'application/json'
     },
-    body : JSON.stringify(req)
+    body : req
   }
   return request.post(reqSth, function(req, res, body){
     console.log(body);
-    return body;
   })
 }
 

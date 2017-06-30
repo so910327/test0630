@@ -1,7 +1,7 @@
 var URLSafeBase64 = require('urlsafe-base64');
-let now = new Date();
 var bodyParser = require('body-parser');
 
+let now = new Date();
 var db = [];
 
 function checkValue(path){
@@ -30,7 +30,6 @@ function getKEY(req, res) {
   }
 }
 
-
 function deleteKEY(req, res) {
   var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
@@ -48,7 +47,7 @@ function deleteKEY(req, res) {
       TS: now,
     });
     console.log(db);
- }
+  }
 }
 
 function postKEY(req, res) {
