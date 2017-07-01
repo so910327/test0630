@@ -10,7 +10,7 @@ function encrypt(req, res){
   var plain = req.body.plaintext;
   //console.log(check(plain));
   if(req.headers['content-type'] !== 'application/json' || plain === undefined || check(plain) === false)
-    res.json(400, {
+    return res.json(400, {
       message: "給人看的錯誤說明",
     });
     var req = JSON.stringify({"plaintext" : plain});
@@ -23,18 +23,21 @@ function encrypt(req, res){
     }
     request.post(reqSth, function(err, response, body){
       var cipher = JSON.parse(response.body).ciphertext;
-      //res.send(res.body);
-      console.log(body);
-      if(cipher.length > 32)
-        res.json(413, {
+      console.log(cipher);
+      if(cipher === undefined)
+        res.json(400, {
           message: "給人看的錯誤說明",
+        });
+      else{
+        if(cipher.length > 32)
+          res.json(413, {
+            message: "給人看的錯誤說明",
+          })
+        res.json(200, {
+          "ciphertext" : cipher
         })
-      res.json(200, {
-        "ciphertext" : cipher
-      })
-      res.end();
-    })
-
+      }
+  })
 }
 
 module.exports = {
