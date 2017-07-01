@@ -6,24 +6,6 @@ function check(str){
   return true;
 }
 
-function getvalue(req){
-  req = JSON.stringify(req);
-  var reqSth = {
-    url : 'https://nkiua09s52.execute-api.ap-northeast-1.amazonaws.com/dev/encrypt',
-    headers : {
-      'content-type' : 'application/json'
-    },
-    body : req
-  }
-  var require = request.post(reqSth, function(err, res){
-    var cipher = JSON.parse(res.body).ciphertext;
-    //res.send(res.body);
-    console.log(cipher);
-    return cipher;
-  })
-  return require;
-}
-
 function encrypt(req, res){
   var plain = req.body.plaintext;
   //console.log(check(plain));
@@ -31,14 +13,28 @@ function encrypt(req, res){
     res.json(400, {
       message: "給人看的錯誤說明",
     });
-  var cipher =getvalue({"plaintext" : plain});
-  if(cipher.length >= 32)
-    res.json(413, {
-      message: "給人看的錯誤說明",
+    var req = JSON.stringify({"plaintext" : plain});
+    var reqSth = {
+      url : 'https://nkiua09s52.execute-api.ap-northeast-1.amazonaws.com/dev/encrypt',
+      headers : {
+        'content-type' : 'application/json'
+      },
+      body : req
+    }
+    request.post(reqSth, function(err, response, body){
+      var cipher = JSON.parse(response.body).ciphertext;
+      //res.send(res.body);
+      console.log(body);
+      if(cipher.length > 32)
+        res.json(413, {
+          message: "給人看的錯誤說明",
+        })
+      res.json(200, {
+        "ciphertext" : cipher
+      })
+      res.end();
     })
-  res.json(200, {
-    "ciphertext" : cipher
-  })
+
 }
 
 module.exports = {
