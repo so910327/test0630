@@ -29,7 +29,8 @@ describe('controllers', function() {
           .expect(200)
           .then(res => assert(res.body.ciphertext, 'c3cc3debd65d2473930406f810a6c482'))
           .then(() => done(), err => done(err))
-      }) 
+          console,log(res.body.ciphertext);
+      })
     }) // example
   }); // kv
 }); // controllers

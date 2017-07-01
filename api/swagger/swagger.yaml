@@ -18,6 +18,11 @@ parameters:
       KEY to manipulate with
     required: true
     type: string
+  Encrypt:
+    name: Encrypt
+    in: path
+    required: true
+    type: string
 paths:
   /kv/{KvKey}:
     x-swagger-router-controller: kv
@@ -61,7 +66,7 @@ paths:
         - name: body
           in: body
           required: true
-          schema: 
+          schema:
             $ref: "#/definitions/KvPostRequest"
       responses:
         "200":
@@ -70,6 +75,31 @@ paths:
             $ref: "#/definitions/KvPostResponse"
         "400":
           description: Bad Request, usually malformed parameters
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /{Encrypt}:
+    x-swagger-router-controller: encrypt
+    post:
+      description: get hex decode
+      operationId: encrypt
+      parameters:
+        - $ref: "#/parameters/Encrypt"
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/EncryptPostRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/EncryptResponse"
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "413":
+          description: Entity Too Large
           schema:
             $ref: "#/definitions/ErrorResponse"
   /swagger:
@@ -94,7 +124,7 @@ definitions:
       TS:
         type: string
   KvPostRequest:
-    required: 
+    required:
       - VALUE
     properties:
       VALUE:
@@ -104,6 +134,18 @@ definitions:
       - TS
     properties:
       TS:
+        type: string
+  EncryptResponse:
+    required:
+      - ciphertext
+    properties:
+      ciphertext:
+        type: string
+  EncryptPostRequest:
+    required:
+      - plaintext
+    properties:
+      plaintext:
         type: string
   ErrorResponse:
     required:
