@@ -3,9 +3,6 @@
 var SwaggerRestify = require('swagger-restify-mw');
 var restify = require('restify');
 var app = restify.createServer();
-var kv = require('./api/controllers/kv');
-var request = require('request');
-
 
 module.exports = app; // for testing
 

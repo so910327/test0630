@@ -12,10 +12,6 @@ function checkValue(path){
 
 function getKEY(req, res) {
   var path = req.path.slice(4);
-  if(!URLSafeBase64.validate(path))
-    res.json(400, {
-      message: "給人看的錯誤說明",
-    })
   console.log(checkValue(path));
   if(checkValue(path) === false)
     res.json(404, {
@@ -32,10 +28,6 @@ function getKEY(req, res) {
 
 function deleteKEY(req, res) {
   var path = req.path.slice(4);
-  if(!URLSafeBase64.validate(path))
-    res.json(400, {
-      message: "給人看的錯誤說明",
-    })
   if(checkValue(path) === false)
     res.json(404, {
       TS: now,
@@ -53,9 +45,10 @@ function deleteKEY(req, res) {
 function postKEY(req, res) {
   var path = req.path.slice(4);
   if(!URLSafeBase64.validate(path))
-    res.json(400, {
+    return res.json(400, {
       message: "給人看的錯誤說明",
   })
+  console.log('saveBase64');
   res.json(200, {
     TS: now,
   })
